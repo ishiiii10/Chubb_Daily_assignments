@@ -2,13 +2,16 @@ package com.dto;
 
 
 
+import com.enums.Gender;
+import com.enums.MealType;
+
 import lombok.Data;
 
 @Data
 public class PassengerRequest {
     private String name;
     private Integer age;
-    private String gender;
+    private Gender gender;
     private String seatNumber;
-    private String mealType;
+    private MealType mealType;
 }

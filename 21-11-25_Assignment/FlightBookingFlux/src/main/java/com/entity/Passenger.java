@@ -2,6 +2,10 @@ package com.entity;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
+
+import com.enums.Gender;
+import com.enums.MealType;
+
 import lombok.*;
 
 @Data
@@ -17,7 +21,7 @@ public class Passenger {
     private Long bookingId;
     private String name;
     private Integer age;
-    private String gender;
+    private Gender gender;
     private String seatNumber;
-    private String meal;
+    private MealType meal;
 }

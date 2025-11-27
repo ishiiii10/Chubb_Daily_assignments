@@ -4,6 +4,9 @@ package com.entity;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
+
+import com.enums.FlightStatus;
+
 import lombok.*;
 import java.time.LocalDateTime;
 
@@ -27,4 +30,5 @@ public class Flight {
     private Integer totalSeats;
     private Integer availableSeats;
     private Double baseFare;
+    private FlightStatus status;
 }

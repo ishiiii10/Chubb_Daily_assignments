@@ -3,6 +3,7 @@ package com.service;
 
 
 import com.entity.Booking;
+
 import com.entity.Flight;
 import com.entity.Passenger;
 import com.repository.BookingRepo;
@@ -20,6 +21,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+
+import com.enums.BookingStatus;
 
 @Service
 @RequiredArgsConstructor
@@ -64,7 +67,7 @@ public class BookingService {
                                         .contactEmail(contactEmail)
                                         .seatsBooked(seatsToBook)
                                         .totalPrice(totalPrice)
-                                        .status("CONFIRMED")
+                                        .status(BookingStatus.CONFIRMED)
                                         .build();
 
                                 // reduce seats and save flight, then save booking and passengers
@@ -95,19 +98,15 @@ public class BookingService {
     public Mono<java.util.Map<String, Object>> getTicketByPnr(String pnr) {
         return bookingRepo.findByPnr(pnr)
                 .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)))
-                .flatMap(booking -> flightRepo.findById(booking.getFlightId())
-                        .defaultIfEmpty(null)
-                        .map(flight -> {
-                            if (flight == null) {
-                                // If flight is missing, we still return booking minimal but to follow rule, return 404
-                                throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-                            }
-                            return java.util.Map.<String, Object>of(
-                                    "pnr", booking.getPnr(),
-                                    "status", booking.getStatus(),
-                                    "flightCode", flight.getFlightCode()
-                            );
-                        }));
+                .flatMap(booking ->
+                    flightRepo.findById(booking.getFlightId())
+                        .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)))
+                        .map(flight -> java.util.Map.<String,Object>of(
+                            "pnr", booking.getPnr(),
+                            "status", booking.getStatus(),
+                            "flightCode", flight.getFlightCode()
+                        ))
+                );
     }
 
     /**
@@ -118,7 +117,7 @@ public class BookingService {
         return bookingRepo.findByPnr(pnr)
                 .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)))
                 .flatMap(booking -> {
-                    if ("CANCELLED".equalsIgnoreCase(booking.getStatus())) {
+                	if (booking.getStatus() == BookingStatus.CANCELLED) {
                         return Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND));
                     }
 
@@ -132,7 +131,7 @@ public class BookingService {
 
                                 // restore seats
                                 flight.setAvailableSeats(flight.getAvailableSeats() + booking.getSeatsBooked());
-                                booking.setStatus("CANCELLED");
+                                booking.setStatus(BookingStatus.CANCELLED);
 
                                 return flightRepo.save(flight)
                                         .then(bookingRepo.save(booking))
