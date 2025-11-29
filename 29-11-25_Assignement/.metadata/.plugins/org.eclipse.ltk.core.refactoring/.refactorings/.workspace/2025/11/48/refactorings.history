@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Delete resource &apos;CHUBB_quizapp_quizservice-main&apos;" deleteContents="false" description="Delete resource &apos;CHUBB_quizapp_quizservice-main&apos;" element1="/CHUBB_quizapp_quizservice-main" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1764412142027"/>
+</session>
