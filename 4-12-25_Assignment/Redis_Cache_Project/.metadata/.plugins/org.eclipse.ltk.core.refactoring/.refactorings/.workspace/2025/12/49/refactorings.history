@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;Spring-redis-tutorial-main&apos; to &apos;Redis-tutorial&apos;" description="Rename resource &apos;Spring-redis-tutorial-main&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="/Spring-redis-tutorial-main" name="Redis-tutorial" stamp="1764838963254" updateReferences="true"/>
+</session>
