@@ -1,0 +1,30 @@
+<h2>Student CRUD Demo</h2>
+
+<!-- ADD STUDENT -->
+<h3>Add Student</h3>
+<input type="number" placeholder="ID" [(ngModel)]="newStudent.id" name="id">
+<input placeholder="Name" [(ngModel)]="newStudent.name" name="name">
+<input placeholder="Course" [(ngModel)]="newStudent.course" name="course">
+<button (click)="addStudent()">Add Student</button>
+
+<hr>
+
+<!-- STUDENT LIST -->
+<h3>Student List</h3>
+<ul>
+  <li *ngFor="let student of students">
+    {{ student.id }} - {{ student.name }} ({{ student.course }})
+    <button (click)="editStudent(student)">Edit</button>
+    <button (click)="deleteStudent(student.id)">Delete</button>
+  </li>
+</ul>
+
+<hr>
+
+<!-- UPDATE STUDENT -->
+<div *ngIf="selectedStudent">
+  <h3>Update Student</h3>
+  <input [(ngModel)]="selectedStudent.name" name="editName">
+  <input [(ngModel)]="selectedStudent.course" name="editCourse">
+  <button (click)="updateStudent()">Update</button>
+</div>
